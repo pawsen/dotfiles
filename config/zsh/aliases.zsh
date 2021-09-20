@@ -12,13 +12,28 @@ alias mv='mv -i'
 alias mkdir='mkdir -pv'
 alias wget='wget -c'
 alias path='echo -e ${PATH//:/\\n}'
-alias ports='netstat -tulanp'
+alias ports='ss -tuplna'
 
 alias mk=make
 alias gurl='curl --compressed'
 
 alias shutdown='sudo shutdown'
 alias reboot='sudo reboot'
+
+# copy lines to clipboard.
+# c2c <return> write command or use arrows to browse history 2x<return>
+# https://askubuntu.com/a/1279811/1177693
+alias c2c='cat - <<"" | tr -d '"'"'\n'"'"' | xsel -b'
+
+# systemd
+alias start='systemctl --user start'
+alias stop='systemctl --user stop'
+alias restart='systemctl --user restart'
+alias status='systemctl --user status'
+
+alias jc='journalctl -xe'
+alias sc=systemctl
+alias ssc='sudo systemctl'
 
 # An rsync that respects gitignore
 rcp() {
