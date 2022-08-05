@@ -4,6 +4,9 @@
                url(chrome://browser/content/browser.xhtml)
 {
   /*** TAB BAR ***/
+  /* How to customize firefox using userChrome.css */
+  /* https://www.userchrome.org/how-create-userchrome-css.html */
+
   :root {
     --tab-min-height: 32px !important;
   }

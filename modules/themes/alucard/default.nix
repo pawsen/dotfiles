@@ -48,9 +48,10 @@ in {
         shell.zsh.rcFiles  = [ ./config/zsh/prompt.zsh ];
         shell.tmux.rcFiles = [ ./config/tmux.conf ];
         desktop.browsers = {
-          firefox.userChrome = concatMapStringsSep "\n" readFile [
-            ./config/firefox/userChrome.css
-          ];
+          # disable custom firefox css - I miss the URL bar
+          # firefox.userChrome = concatMapStringsSep "\n" readFile [
+          #   ./config/firefox/userChrome.css
+          # ];
           qutebrowser.userStyles = concatMapStringsSep "\n" readFile
             (map toCSSFile [
               ./config/qutebrowser/userstyles/monospace-textareas.scss
