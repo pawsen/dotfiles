@@ -14,8 +14,12 @@ in {
     doom = rec {
       enable = mkBoolOpt false;
       forgeUrl = mkOpt types.str "https://github.com";
-      repoUrl = mkOpt types.str "${forgeUrl}/doomemacs/doomemacs";
-      configRepoUrl = mkOpt types.str "${forgeUrl}/hlissner/doom-emacs-private";
+      # repoUrl = mkOpt types.str "${forgeUrl}/doomemacs/doomemacs";
+      # configRepoUrl = mkOpt types.str "${forgeUrl}/hlissner/doom-emacs-private";
+
+      # XXX some error hen doing above: Cannot coerce a set to a string
+      repoUrl = mkOpt types.str "https://github.com/doomemacs/doomemacs";
+      configRepoUrl = mkOpt types.str "https://github.com/hlissner/doom-emacs-private";
     };
   };
 
