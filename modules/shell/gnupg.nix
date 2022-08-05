@@ -12,7 +12,13 @@ in {
   config = mkIf cfg.enable {
     environment.variables.GNUPGHOME = "$XDG_CONFIG_HOME/gnupg";
 
-    programs.gnupg.agent.enable = true;
+    # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/programs/gnupg.nix
+    programs.gnupg.agent = {
+      enable = true;
+      # Enable SSH agent support in GnuPG agent. Cannot be enabled if ssh agent
+      # is enabled
+      # enableSSHSupport = true;
+    };
 
     user.packages = [ pkgs.tomb ];
 
