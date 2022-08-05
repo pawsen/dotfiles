@@ -29,6 +29,7 @@ in {
       xdotool
       xorg.xwininfo
       libqalculate  # calculator cli w/ currency conversion
+      flameshot     # screenshot tool
       (makeDesktopItem {
         name = "scratch-calc";
         desktopName = "Calculator";
