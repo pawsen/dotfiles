@@ -3,22 +3,22 @@
 rofi_command="rofi -theme theme/powermenu.rasi"
 
 ### Options ###
-power_off="\tShutdown"
-reboot="\tReboot"
-lock="\tLock"
-suspend="鈴\tSleep"
-log_out="\tLogout"
+power_off=$(echo -e "\tShutdown")
+reboot=$(echo -e "\tReboot")
+lock=$(echo -e "\tLock")
+suspend=$(echo -e "鈴\tSleep")
+log_out=$(echo -e "\tLogout")
 # Variable passed to rofi
 options="$power_off\n$reboot\n$lock\n$suspend\n$log_out"
-
-case "$(echo -e "$options" | $rofi_command -dmenu -selected-row 2)" in
+field=$(echo -e "$options" | $rofi_command -dmenu -selected-row 2)
+case "$field" in
     $power_off)
         systemctl poweroff
         ;;
     $reboot)
         systemctl reboot
         ;;
-    $lock)
+    "$lock")
         zzz
         ;;
     $suspend)
