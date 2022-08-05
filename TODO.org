@@ -1,0 +1,32 @@
+
+Reads hers HOW-TO
+https://christine.website/blog/series/howto
+https://christine.website/blog/nixos-desktop-flow-2020-04-25
+
+
+** learn to install from snap
+https://discourse.nixos.org/t/installing-a-snap-package/11468
+https://github.com/NixOS/nixpkgs/issues/30336
+
+** if ssh-add does not work
+https://www.reddit.com/r/NixOS/comments/lsbo9a/people_using_sshagent_how_do_you_unlock_it_on/goqn6qs/
+services.gnome3.gnome-keyring.enable = true;
+
+* create systemd unit file
+#+begin_src sh
+systemd.user.services.emacs = {
+    description = "Emacs Daemon";
+    environment.GTK_DATA_PREFIX = config.system.path;
+    environment.SSH_AUTH_SOCK = "%t/ssh-agent";
+    environment.GTK_PATH = "${config.system.path}/lib/gtk-3.0:${config.system.path}/lib/gtk-2.0";
+    environment.NIX_PROFILES = "${concatStringsSep " " (reverseList config.environment.profiles)}";
+
+    wantedBy = [ "default.target" ];
+    serviceConfig = {
+    Type = "forking";
+    ExecStart = "${pkgs.emacs}/bin/emacs --daemon";
+    ExecStop = "${pkgs.emacs}/bin/emacsclient --eval (kill-emacs)";
+    Restart = "always";
+    };
+};
+#+end_src
