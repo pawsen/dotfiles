@@ -19,11 +19,17 @@ in {
       lightdm
       dunst
       libnotify
+      acpi        # show battery information
       (polybar.override {
         pulseSupport = true;
         nlSupport = true;
       })
     ];
+
+    programs = {
+      light.enable = true;   # chnage backlight
+    };
+    user.extraGroups = [ "video" ];
 
     services = {
       picom.enable = true;

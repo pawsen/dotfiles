@@ -84,6 +84,22 @@ super + shift + {Left,Down,Up,Right}
 super + ctrl + {Left,Down,Up,Right}
 	bspc node -v {-40 0,0 40,0 -40,40 0}
 
+# https://www.reddit.com/r/bspwm/comments/m4kiyb/from_floating_window_and_back/gqw1sut
+# In conclusion, when the focused window is tiled and I want to focus a floating
+# window, I press super + g; and then I press super + c to go back to the tiled
+# window.
+# Focus a floating window / Cycle floating windows.
+super + {_,shift + }g
+	bspc node 'focused.floating#{next,prev}.local.!hidden.floating' -f \
+	    || bspc node 'last.local.!focused.!hidden.floating' -f \
+	    || bspc node  'any.local.!focused.!hidden.floating' -f
+
+# Focus a (pseudo_)tiled window / Cycle (pseudo_)tiled windows.
+super + {_,shift + }c
+	bspc node 'focused.!floating.!fullscreen.window#{next,prev}.local.!hidden.!floating.!fullscreen.window' -f \
+	    || bspc node 'last.local.!focused.!hidden.!floating.!fullscreen.window' -f \
+	    || bspc node  'any.local.!focused.!hidden.!floating.!fullscreen.window' -f
+
 
 #
 ## Desktops
