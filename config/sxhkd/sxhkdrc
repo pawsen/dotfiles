@@ -1,7 +1,19 @@
+# example configuration
+# https://github.com/baskerville/bspwm/blob/master/examples/sxhkdrc
+
+
+super + alt + Escape
+	bspc quit
+
+# close and kill
+super + {_,shift + }q
+	bspc node -{c,k}
+
+# alternate between the tiled and monocle layout
 super + t
 	bspc desktop -l next
 
-super + w; super + b
+super + b
 	bspc window -s last
 
 # Attach to a detached session. If none is available create a new one, rather
@@ -41,6 +53,9 @@ super + shift + p
 super + slash
 	$DOTFILES_BIN/rofi/filemenu -x
 
+ctrl + alt + l
+	$DOTFILES_BIN/rofi/powermenu
+
 super + Escape
 	pkill -USR1 -x sxhkd
 
@@ -52,7 +67,7 @@ super + alt + Escape
 ##
 
 ## Toggle floating/fullscreen
-super + w; super + {_,shift + }f
+super + {_,shift + }f
 	bspc node -t ~{floating,fullscreen}
 
 # Focus window directionally; w/ ctrl = move by monitor
@@ -68,7 +83,7 @@ super + shift + {_,ctrl +}{h,j,k,l}
 ##
 
 # Close window or force-kill it!
-super + q; super + {_,shift + }q
+super + {_,shift + }q
 	bspc node -{c,k}
 
 # expand a window by moving one of its side outward
@@ -124,6 +139,12 @@ super + Print
 # screencast region to gif
 super + ctrl + Print
 	scrrec -s ~/recordings/$(date +%F-%T).gif
+
+super + shift + b
+    notify-send "Battery Status" "$(acpi)"
+
+super + shift + d
+    notify-send "Current Time" "$(date)"
 
 XF86MonBrightnessUp
 	light -A 5
