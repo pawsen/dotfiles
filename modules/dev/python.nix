@@ -19,13 +19,13 @@ in {
   config = mkMerge [
     (mkIf cfg.enable {
       user.packages = with pkgs; [
-        python37
-        python37Packages.pip
-        python37Packages.ipython
-        python37Packages.black
-        python37Packages.setuptools
-        python37Packages.pylint
-        python37Packages.poetry
+        python3
+        python3Packages.pip
+        python3Packages.ipython
+        python3Packages.black
+        python3Packages.setuptools
+        python3Packages.pylint
+        python3Packages.poetry
       ];
 
       environment.shellAliases = {
@@ -35,7 +35,10 @@ in {
         po     = "poetry";
         ipy    = "ipython --no-banner";
         ipylab = "ipython --pylab=qt5 --no-banner";
-      };
+        # run python as sudo, keeping current virt. env
+        spython= "sudo $(printenv VIRTUAL_ENV)/bin/python3";
+     };
+
     })
 
     (mkIf cfg.xdg.enable {
