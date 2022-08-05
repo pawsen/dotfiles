@@ -41,6 +41,9 @@ super + e
 super + space
 	$DOTFILES_BIN/rofi/appmenu
 
+#super + d
+#	$DOTFILES_BIN/rofi/shellmenu
+
 super + Tab
 	$DOTFILES_BIN/rofi/windowmenu
 

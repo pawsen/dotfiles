@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# aliases=$(alias | awk -F'[ =]' '{print $1}')
+my_aliases() {
+    alias | awk -F'[ =]' '{print $1}'
+}
+
+rofi -show run \
+     -modi run \
+     -run-list-command my_aliases \
+     -run-shell-command '{terminal} -e zsh -ic "{cmd} && read"' \
+     -theme theme/appmenu.rasi
+
