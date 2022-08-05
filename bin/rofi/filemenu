@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 cd $HOME
 DIR="$(fd -L -d 4 --type d . | rofi -dmenu -i -p "~/" -theme theme/filemenu.rasi)"
 if [ -d "$DIR" ]; then
@@ -6,6 +6,7 @@ if [ -d "$DIR" ]; then
   if [[ $1 == "-x" ]]; then
     scratch
   else
-    xst
+    # XXX: FIXME: does not work. Not inheriting env
+    $TERMINAL
   fi
 fi
