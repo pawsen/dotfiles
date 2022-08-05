@@ -1,0 +1,29 @@
+# a comprehensive config
+# https://github.com/tmcdonell/config-alacritty/blob/master/alacritty.yml
+
+env:
+  TERM: xterm-256color
+  # keep same font size independent of the screens DPI
+  # https://github.com/alacritty/alacritty/issues/3792#issuecomment-636270908
+  WINIT_X11_SCALE_FACTOR: "1.0"
+
+scrolling:
+  # How many lines of scrollback to keep,
+  # '0' will disable scrolling.
+  history: 100000
+
+font:
+  size: 12
+
+# Spawn new instance in same directory
+key_bindings:
+  - { key: Return,   mods: Control|Shift, action: SpawnNewInstance }
+
+mouse_bindings:
+  - { mouse: Middle, action: PasteSelection }
+
+selection:
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>"
+
+  # When set to `true`, selected text will be copied to the primary clipboard.
+  save_to_clipboard: false
