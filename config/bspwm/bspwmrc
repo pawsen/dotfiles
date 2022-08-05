@@ -20,6 +20,13 @@ bspc config remove_unplugged_monitors true
 
 
 # Rules
+# `rule -a` match on className, which can be found using xprop
+# OR list the className used for all nodes ("open programs")
+# for n in $(bspc query -N ); do bspc query -T -n $n | jq ".client.className" ; done
+# bspc rule -l will list all rules
+# bspc query -D --names will list the desktops by name to ensure correct selection.
+# flags/attributes for a rule
+# https://github.com/baskerville/bspwm/wiki/window-rules---attribute-flags
 bspc rule -r '*'
 
 bspc rule -a Pinentry state=floating center=on
@@ -29,7 +36,8 @@ bspc rule -a feh state=fullscreen
 bspc rule -a 'Emacs:org*' state=floating
 bspc rule -a 'Emacs:scratch' state=floating
 bspc rule -a 'Emacs:emacs-everywhere' state=floating sticky=on
-bspc rule -a '*:scratch' state=floating sticky=on border=off rectangle=1000x460+480+620
+bspc rule -a '*:scratch' state=floating sticky=on center=on border=off rectangle=1000x800+0+0
+bspc rule -a 'processing-app-Base' state=floating  # className for arduino
 
 #
 for file in $XDG_CONFIG_HOME/bspwm/rc.d/*; do
