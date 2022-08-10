@@ -1,19 +1,19 @@
 [user]
-	name = Henrik Lissner
-	email = git@henrik.io
-	signingKey = FA1FADD9440B688CAA75A057B60957CA074D39A3
-[commit]
-	gpgSign = true
-[tag]
-	gpgSign = true
+	name = Paw Møller
+	email = pawsen@gmail.com
+	#signingKey = FA1FADD9440B688CAA75A057B60957CA074D39A3
+# [commit]
+# 	gpgSign = true
+# [tag]
+# 	gpgSign = true
 [core]
 	whitespace = trailing-space
 [init]
 	defaultBranch = main
 [github]
-	user = hlissner
+	user = pawsen
 [gitlab]
-	user = hlissner
+	user = pawsen
 [push]
 	autoSquash = true
 [push]
@@ -23,6 +23,8 @@
 	rebase = true
 [alias]
 	unadd = reset HEAD
+    st = status
+    co = checkout
 	# data analysis
 	ranked-authors = !git authors | sort | uniq -c | sort -n
 	emails = !git log --format="%aE" | sort -u
@@ -44,8 +46,8 @@
     insteadOf = gist:
 [url "https://bitbucket.org/"]
     insteadOf = bb:
-[url "https://git.henrik.io"]
-    insteadOf = my:
+# [url "https://git.henrik.io"]
+#     insteadOf = my:
 [diff "lisp"]
 	xfuncname = "^(((;;;+ )|\\(|([ \t]+\\(((cl-|el-patch-)?def(un|var|macro|method|custom)|gb/))).*)$"
 [diff "org"]
