@@ -117,6 +117,9 @@
     # Enable CUPS to print documents.
     printing.enable = true;
     printing.drivers = with pkgs; [hplip];
+
+    # gnome virtual fs. For automounting. For CLI tool, see udevil.
+    gvfs.enable = true;
   };
 
   #environment.shellAliases = {
