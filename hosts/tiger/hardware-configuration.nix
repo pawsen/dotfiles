@@ -30,6 +30,7 @@
 
   # Modules
   modules.hardware = {
+    bluetooth.enable = true;
     audio.enable = true;
     fs = {
       enable = true;
