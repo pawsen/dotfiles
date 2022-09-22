@@ -59,6 +59,9 @@ super + slash
 ctrl + alt + l
 	$DOTFILES_BIN/rofi/powermenu
 
+super + b
+	$DOTFILES_BIN/rofi/bluetoothmenu
+
 super + Escape
 	pkill -USR1 -x sxhkd
 

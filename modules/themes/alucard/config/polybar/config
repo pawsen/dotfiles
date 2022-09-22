@@ -362,6 +362,14 @@ animation-charging-foreground = ${colors.fg}
 ; Custom scripts
 ;=====================================================
 
+[module/bluetooth]
+; XXX: fix hardcoded path to bluetoothmenu
+type = custom/script
+exec = /etc/nixos/bin/rofi/bluetoothmenu --status
+interval = 1
+click-left = /etc/nixos/bin/rofi/bluetoothmenu &
+format-padding = 1
+
 [module/pad]
 type = custom/text
 content = "   "
@@ -381,5 +389,6 @@ exec-if = systemctl is-active syncthing
 format = ""
 format-foreground = ${colors.fg}
 interval = 30
+
 
 ; vim:ft=dosini

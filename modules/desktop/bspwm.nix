@@ -25,6 +25,7 @@ in {
         nlSupport = true;
       })
       keyutils    # provide keyctl, used for rofi-bwmenu
+      bc          # needed by rofi-bluetooth (renamed to bluetoothmenu)
     ];
 
     programs = {
