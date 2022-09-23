@@ -2,19 +2,6 @@
 # https://github.com/baskerville/bspwm/blob/master/examples/sxhkdrc
 
 
-super + alt + Escape
-	bspc quit
-
-# close and kill
-super + {_,shift + }q
-	bspc node -{c,k}
-
-# alternate between the tiled and monocle layout
-super + t
-	bspc desktop -l next
-
-super + b
-	bspc window -s last
 
 # Attach to a detached session. If none is available create a new one, rather
 # than attach to one that is already attached to elsewhere.
@@ -69,8 +56,15 @@ super + alt + Escape
 	bspc quit
 
 
-#
 ##
+
+# alternate between the tiled and monocle layout
+super + t
+	bspc desktop -l next
+
+# swap position of current tiled node with the last one
+super + b
+	bspc node -s last
 
 ## Toggle floating/fullscreen
 super + {_,shift + }f
@@ -85,7 +79,6 @@ super + shift + {_,ctrl +}{h,j,k,l}
 	$DOTFILES_BIN/bspwm/swap {_,-m }{west,south,north,east}
 
 
-#
 ##
 
 # Close window or force-kill it!
@@ -138,7 +131,7 @@ super + shift + {1-9,0}
 
 # screenshot region
 Print
-	scrcap
+	flameshot gui
 # screencast region to mp4
 super + Print
 	scrrec -s ~/recordings/$(date +%F-%T).mp4
