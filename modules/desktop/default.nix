@@ -3,6 +3,7 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop;
+    configDir = config.dotfiles.configDir;
 in {
   config = mkIf config.services.xserver.enable {
     assertions = [
@@ -40,6 +41,12 @@ in {
       qgnomeplatform        # QPlatformTheme for a better Qt application inclusion in GNOME
       libsForQt5.qtstyleplugin-kvantum # SVG-based Qt5 theme engine plus a config tool and extra theme
     ];
+
+    # config for feh
+    home.configFile = {
+      "feh/themes".source = "${configDir}/feh/themes";
+    };
+    modules.shell.zsh.rcFiles = [ "${configDir}/feh/aliases.zsh" ];
 
     fonts = {
       fontDir.enable = true;

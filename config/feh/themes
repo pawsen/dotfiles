@@ -1,0 +1,6 @@
+feh -B black -d --scale-down --draw-tinted --draw-exif --sort filename --quiet
+
+# -B black: use black background
+# -d : Draw the filename at the top-left of the image.
+# --draw-tinted: Show overlay texts (as created by --draw-filename et al ) on a semi-transparent background to improve their readability
+# --quiet: Don't report non-fatal errors for failed loads.
