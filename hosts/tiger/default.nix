@@ -82,6 +82,7 @@
     # unstable.alacritty
     transmission-qt
     pcmanfm-qt
+    xarchiver  # for extracting using right-click in pcmanfm
     libreoffice
     jq
     htop
