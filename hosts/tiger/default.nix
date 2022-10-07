@@ -93,6 +93,7 @@
     element-desktop
     flameshot
     jpegoptim
+    zathura  # pdf-reader with vim bindings
 
     # development
     insomnia  # REST api client
@@ -121,6 +122,10 @@
 
     # gnome virtual fs. For automounting. For CLI tool, see udevil.
     gvfs.enable = true;
+
+    # augmenting direnv with lorri, which will cache nix builds and speed up
+    # direnv tremendously
+    lorri.enable = true;
   };
 
   #environment.shellAliases = {
