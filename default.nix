@@ -21,8 +21,8 @@ with lib.my;
         nixPathInputs  = mapAttrsToList (n: v: "${n}=${v}") filteredInputs;
         registryInputs = mapAttrs (_: v: { flake = v; }) filteredInputs;
     in {
-      package = pkgs.nixFlakes;
-      extraOptions = "experimental-features = nix-command flakes";
+      package = pkgs.nixVersions.stable;
+      settings.experimental-features = [ "nix-command" "flakes" ];
       nixPath = nixPathInputs ++ [
         "nixpkgs-overlays=${config.dotfiles.dir}/overlays"
         "dotfiles=${config.dotfiles.dir}"
@@ -39,7 +39,7 @@ with lib.my;
       };
     };
   system.configurationRevision = with inputs; mkIf (self ? rev) self.rev;
-  system.stateVersion = "21.05";
+  system.stateVersion = "22.05";
 
   ## Some reasonable, global defaults
   # This is here to appease 'nix flake check' for generic hosts with no
@@ -53,7 +53,7 @@ with lib.my;
 
   # Use the latest kernel
   boot = {
-    kernelPackages = mkDefault pkgs.linuxKernel.packages.linux_5_18;
+    kernelPackages = mkDefault pkgs.linuxPackages_latest;
     loader = {
       efi.canTouchEfiVariables = mkDefault true;
       systemd-boot.configurationLimit = 10;
