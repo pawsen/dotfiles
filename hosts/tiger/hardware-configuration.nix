@@ -89,7 +89,10 @@
 
       # stop charging when battery reaches 80% - for improved battery life
       # Charge to full capacity by
-      # tlp fullcharge bat0
+      # sudo tlp fullcharge bat0 OR
+      # sudo tlp setcharge 96 100  (fullcharge is just an alias for setcharge)
+      # get status by
+      # sudo tlp-stat -b
       START_CHARGE_THRESH_BAT0=75;
       STOP_CHARGE_THRESH_BAT0=80;
 
