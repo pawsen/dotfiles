@@ -81,8 +81,6 @@
   user.packages = with pkgs; [
     # unstable.alacritty
     transmission-qt
-    pcmanfm-qt
-    xarchiver  # for extracting using right-click in pcmanfm
     libreoffice
     jq
     htop
@@ -100,6 +98,7 @@
 
     usbutils  # lsusb
     pciutils
+
   ];
 
   # from nixos specific recipes
@@ -120,8 +119,12 @@
     printing.enable = true;
     printing.drivers = with pkgs; [hplip];
 
-    # gnome virtual fs. For automounting. For CLI tool, see udevil.
+    # gnome virtual fs. For automounting and trash. For CLI tool, see udevil.
     gvfs.enable = true;
+
+    # Thumbnail previews for file-managers
+    tumbler.enable = true; # Thumbnail support for images
+
 
     # augmenting direnv with lorri, which will cache nix builds and speed up
     # direnv tremendously
@@ -135,7 +138,19 @@
   # system packages
   environment.systemPackages = with pkgs; [
     chromium
-  ];
+
+    # file manager incl plugins
+    (xfce.thunar.override { thunarPlugins = [ xfce.thunar-archive-plugin xfce.thunar-volman ]; })
+    xarchiver  # for extracting using right-click
+    # gnome.file-roller  # requires a lot of dependencies
+
+    # thumblers
+    # https://wiki.archlinux.org/title/File_manager_functionality#Thumbnail_previews
+    libgsf   # odf
+    poppler  # pdf
+
+    ];
+
 
   # home-manger packages
   # home-manager.users.${config.user.name}.services = {
