@@ -138,6 +138,7 @@
   # system packages
   environment.systemPackages = with pkgs; [
     chromium
+    file
 
     # file manager incl plugins
     (xfce.thunar.override { thunarPlugins = [ xfce.thunar-archive-plugin xfce.thunar-volman ]; })
