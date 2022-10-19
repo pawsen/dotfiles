@@ -65,7 +65,6 @@
     };
     services = {
       ssh.enable = true;
-      docker.enable = true;
     };
     theme.active = "alucard";
   };
@@ -99,6 +98,9 @@
     usbutils  # lsusb
     pciutils
 
+    # dropin for docker-compose
+    podman-compose
+    distrobox
   ];
 
   # from nixos specific recipes
@@ -112,7 +114,7 @@
   };
 
   # dialout group owns the device files - for uploading to arduino, etc
-  user.extraGroups = [ "dialout" "networkmanager" "adbusers" ];
+  user.extraGroups = [ "dialout" "networkmanager" "adbusers" "docker" ];
 
   services = {
     # Enable CUPS to print documents.
@@ -191,6 +193,19 @@
     longitude = 12.5;
   } else {});
 
+  virtualisation = {
+    # podman is a dropin replacement for docker
+    # https://nixos.wiki/wiki/Podman
+    podman = {
+      enable = true;
+
+      # Create a `docker` alias for podman, to use it as a drop-in replacement
+      dockerCompat = true;
+
+      # Required for containers under podman-compose to be able to talk to each other.
+      defaultNetwork.dnsname.enable = true;
+    };
+  };
 
   # Personal backups
   # remember to create the backup dir: mkdir /.subvols/btrbk
