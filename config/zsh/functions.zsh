@@ -78,6 +78,29 @@ function mkf() {
    mkdir -vp "$@" && cd "$_";
 }
 
+# Change dir with Fuzzy finding
+function cf() {
+   dir=$(fd . ''${1:-/home/${USER}/} --type d 2>/dev/null | fzf)
+   cd "$dir"
+}
+
+# Change dir in Nix store
+function cn() {
+   dir=$(fd . '/nix/store/' --maxdepth 1 --type d 2>/dev/null | fzf)
+   cd "$dir"
+}
+
+# search Files and Edit
+function fe() {
+   rg --files ''${1:-.} | fzf --preview 'bat -f {}' | xargs $EDITOR
+}
+
+# Search content and Edit
+function se() {
+   fileline=$(rg -n ''${1:-.} | fzf | awk '{print $1}' | sed 's/.$//')
+   $EDITOR ''${fileline%%:*} +''${fileline##*:}
+}
+
 function extract() {
    if [ -f "$1" ] ; then
       case "$1" in
