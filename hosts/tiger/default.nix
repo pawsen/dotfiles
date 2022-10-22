@@ -207,6 +207,10 @@
     # let CAPS-led indicate layout
     # xkbOptions = "grp:lctrl_toggle,grp_led:caps,ctrl:none";
     xkbOptions = "grp:shift_caps_toggle,grp_led:caps,caps:escape";
+    # displaylink is for usb-c dock
+    # the driver must be downloaded manually and put in /nix/store. See
+    # https://nixos.wiki/wiki/Displaylink
+    videoDrivers = [ "displayLink" "modesetting" ];
     displayManager = {
       autoLogin = { enable = true; user = "paw"; };
     };
