@@ -24,7 +24,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    users.defaultUserShell = pkgs.zsh;
+    # users.defaultUserShell = pkgs.zsh;
 
     programs.zsh = {
       enable = true;

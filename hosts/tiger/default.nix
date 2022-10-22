@@ -53,7 +53,6 @@
       vim.enable = true;
     };
     shell = {
-      direnv.enable = true;
       git.enable    = true;
       gnupg.enable  = true;
       tmux.enable   = true;
@@ -91,6 +90,10 @@
     flameshot
     jpegoptim
     zathura  # pdf-reader with vim bindings
+    xclip    # Patch for Clipboard Across X Programs
+
+    arandr     # Graphical Interface for xrandr
+    autorandr
 
     # development
     insomnia  # REST api client
@@ -101,6 +104,7 @@
     # dropin for docker-compose
     podman-compose
     distrobox
+
   ];
 
   # from nixos specific recipes
@@ -111,7 +115,49 @@
 
     # for locking the screen with zzz
     slock.enable = true;
+
+    # I manage fish configuration and plugins with home manager, but to enable
+    # vendor fish completions provided by Nixpkgs it also needs to be enabled here
+    fish.enable = true;
   };
+
+  users.defaultUserShell = pkgs.fish;
+  # home-mamanger packages
+  home-manager.users.${config.user.name}.programs = {
+    direnv = {
+      enable = true;
+      # enableFishIntegration = true;
+    };
+    fish = {
+      enable = true;
+      plugins = [
+          {
+            name = "z";
+            src = pkgs.fetchFromGitHub {
+              owner = "jethrokuan";
+              repo = "z";
+              rev = "85f863f20f24faf675827fb00f3a4e15c7838d76";
+              sha256 = "sha256-+FUBM7CodtZrYKqU542fQD+ZDGrd2438trKM0tIESs0=";
+            };
+          }
+      ];
+    };
+    # gives C-r, C-t(find file) and M-c(cd into sub-dirs) shortcuts
+    fzf.enable = true;
+
+    starship = {
+      enable = true;
+      enableFishIntegration = true;
+      settings = {
+        add_newline = false;
+      };
+    };
+  lsd = {
+    enable = true;
+    # ls, ll, la, lt ...
+    enableAliases = true;
+  };
+};
 
   # dialout group owns the device files - for uploading to arduino, etc
   user.extraGroups = [ "dialout" "networkmanager" "adbusers" "docker" ];
@@ -126,7 +172,6 @@
 
     # Thumbnail previews for file-managers
     tumbler.enable = true; # Thumbnail support for images
-
 
     # augmenting direnv with lorri, which will cache nix builds and speed up
     # direnv tremendously
@@ -154,11 +199,6 @@
 
     ];
 
-
-  # home-manger packages
-  # home-manager.users.${config.user.name}.services = {
-  #   flameshot.enable = true;
-  # };
 
   # layouts
   services.xserver = {
