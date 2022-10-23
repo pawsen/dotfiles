@@ -252,27 +252,21 @@
   };
 
   # Personal backups
-  # remember to create the backup dir: mkdir /.subvols/btrbk
+  # remember to create the backup dir: mkdir -p /.subvols/snapshots
   # see the following for how to setup ssh push
   # https://github.com/NixOS/nixpkgs/blob/master/nixos/tests/btrbk.nix
-  # services.btrbk = {
-  #   instances = {
-  #     local = {
-  #       onCalendar = "*:0/15"; # each 15 min. Before: "minutely";
-  #       settings = {
-  #         timestamp_format = "long";
-  #         snapshot_preserve_min = "2d";
-  #         snapshot_preserve = "48h 20d 6m";
-  #         volume = {
-  #           "/.subvols" = {
-  #             snapshot_dir = "btrbk";
-  #             subvolume = "@home";
-  #             snapshot_create = "onchange";
-  #           };
-  #         };
-  #       };
-  #     };
-  #   };
-  # };
+  services.btrbk.instances."btrbk" = {
+    onCalendar = "*:0/15";
+    settings = {
+      snapshot_preserve_min = "2d";
+      snapshot_preserve = "48h 20d 6m";
+      volume = {
+        "/.subvols" = {
+          subvolume = "@home";
+          snapshot_dir = "snapshots";
+        };
+      };
+    };
+  };
 
 }
