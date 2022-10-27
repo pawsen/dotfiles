@@ -126,6 +126,7 @@
   home-manager.users.${config.user.name}.programs = {
     direnv = {
       enable = true;
+      nix-direnv.enable = true;
       # enableFishIntegration = true;
     };
     fish = {
@@ -144,7 +145,7 @@
     };
     # gives C-r, C-t(find file) and M-c(cd into sub-dirs) shortcuts
     fzf.enable = true;
-
+    dircolors.enable = true;
     starship = {
       enable = true;
       enableFishIntegration = true;
@@ -172,10 +173,6 @@
 
     # Thumbnail previews for file-managers
     tumbler.enable = true; # Thumbnail support for images
-
-    # augmenting direnv with lorri, which will cache nix builds and speed up
-    # direnv tremendously
-    lorri.enable = true;
   };
 
   #environment.shellAliases = {
