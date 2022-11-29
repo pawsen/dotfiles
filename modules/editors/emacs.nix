@@ -57,6 +57,17 @@ in {
       # :lang beancount
       beancount
       unstable.fava  # HACK Momentarily broken on nixos-unstable
+
+      ## lsp
+      nodePackages.pyright  # python
+      # HTML/CSS/JSON/ESLint language servers extracted from vscode.
+      nodePackages.vscode-langservers-extracted
+      nodePackages.bash-language-server  # sh
+      ## formatters
+      html-tidy             # html
+      shellcheck            # sh
+      nixfmt                # nix
+
     ];
 
     env.PATH = [ "$XDG_CONFIG_HOME/emacs/bin" ];

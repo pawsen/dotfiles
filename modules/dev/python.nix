@@ -20,23 +20,22 @@ in {
     (mkIf cfg.enable {
       user.packages = with pkgs; [
         python3
-        python3Packages.pip
         python3Packages.ipython
-        python3Packages.black
-        python3Packages.setuptools
+        # debugging
+        python3Packages.ipdb
+        python3Packages.debugpy
+        # formatting
+        python3Packages.black     # format
+        python3Packages.isort     # sort imports
+        python3Packages.pyflakes  # check python files for error
         python3Packages.pylint
+        # packages
+        python3Packages.pip
+        python3Packages.setuptools
         python3Packages.poetry
       ];
 
       environment.shellAliases = {
-        py     = "python";
-        py2    = "python2";
-        py3    = "python3";
-        po     = "poetry";
-        ipy    = "ipython --no-banner";
-        ipylab = "ipython --pylab=qt5 --no-banner";
-        # run python as sudo, keeping current virt. env
-        spython= "sudo $(printenv VIRTUAL_ENV)/bin/python3";
      };
 
     })
