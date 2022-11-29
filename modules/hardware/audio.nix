@@ -19,6 +19,7 @@ in {
     security.rtkit.enable = true;
 
     environment.systemPackages = with pkgs; [
+      pavucontrol  # gui, controls the volume (per-sink and per-app basis)
       easyeffects
     ];
 

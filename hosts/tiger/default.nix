@@ -80,23 +80,19 @@
     # unstable.alacritty
     transmission-qt
     libreoffice
-    jq
     htop
     freecad
     #  weechat  # cli-irc
     unstable.signal-desktop
     unstable.discord
     element-desktop
-    flameshot
-    jpegoptim
+    flameshot  # screen-shot tool
+    jpegoptim  # compress and optimize jpeg's from cli
     zathura  # pdf-reader with vim bindings
+    poppler_utils  # convert pdf to png using pdftoppm input.pdf output -png
     xclip    # Patch for Clipboard Across X Programs
-
     arandr     # Graphical Interface for xrandr
     autorandr
-
-    # development
-    insomnia  # REST api client
 
     usbutils  # lsusb
     pciutils
@@ -105,6 +101,12 @@
     podman-compose
     distrobox
 
+    # modern replacements for old-school stuff
+    curlie # wraps curl with modern defaults and httpie-like syntax highlighting
+    jq # cli for transforming JSON
+    yq # yq is like jq, meaning that it's like sed for YAML data
+    # development
+    insomnia  # REST api client
   ];
 
   # from nixos specific recipes
