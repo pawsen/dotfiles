@@ -93,6 +93,7 @@
     xclip    # Patch for Clipboard Across X Programs
     arandr     # Graphical Interface for xrandr
     autorandr
+    rclone  # sync tool for major cloud providers
 
     usbutils  # lsusb
     pciutils
