@@ -161,6 +161,7 @@
     # ls, ll, la, lt ...
     enableAliases = true;
   };
+  nix-index.enable = true;
 };
 
   # dialout group owns the device files - for uploading to arduino, etc
