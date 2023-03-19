@@ -23,7 +23,6 @@ in {
         python3Packages.ipython
         # debugging
         python3Packages.ipdb
-        python3Packages.debugpy
         # formatting
         python3Packages.black     # format
         python3Packages.isort     # sort imports
@@ -32,7 +31,8 @@ in {
         # packages
         python3Packages.pip
         python3Packages.setuptools
-        python3Packages.poetry
+        # poetry is promoted to a top-level attribute,
+        poetry
       ];
 
       environment.shellAliases = {

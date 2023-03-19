@@ -37,7 +37,8 @@ in {
       (if cfg.raster.enable then [
         krita
         gimp
-        gimpPlugins.resynthesizer  # content-aware scaling in gimp
+        # broken as of 2.0.3
+        # gimpPlugins.resynthesizer  # content-aware scaling in gimp
       ] else []) ++
 
       # Sprite sheets & animation
