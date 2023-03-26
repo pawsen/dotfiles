@@ -45,6 +45,7 @@
       default = "nvim";
       emacs = {
         enable = true;
+        daemon = true;
         doom = {
           enable = true;
           configRepoUrl = "https://github.com/pawsen/doom.d";
