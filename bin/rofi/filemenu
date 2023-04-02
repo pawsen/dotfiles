@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+#
+#XXX" I might have broken this when "fixing" scratch. super + / doesnt seems to
+#open scratch in the right dir any longer
 cd $HOME
 DIR="$(fd -L -d 4 --type d . | rofi -dmenu -i -p "~/" -theme theme/filemenu.rasi)"
 if [ -d "$DIR" ]; then
@@ -7,6 +10,7 @@ if [ -d "$DIR" ]; then
     scratch
   else
     # XXX: FIXME: does not work. Not inheriting env
-    $TERMINAL
+    # $TERMINAL
+    thunar
   fi
 fi

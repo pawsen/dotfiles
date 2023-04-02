@@ -9,13 +9,18 @@ SCRID=scratch
 CMD=${1:-'tmux new-session -A -s scratch -n scratch'}
 focused=$(xdotool getactivewindow)
 scratch=$(xdotool search --onlyvisible --classname $SCRID)
-
-# XXX: why is -e bash nessecary to inherit env? -e zsh does not work
-ALACRITTY_CMD="alacritty -t $SCRID --class $SCRID -e bash -c $CMD"
-URXVT_CMD="urxvt -name $SCRID -e $SHELL -c $CMD"
-XST_CMD="xst -t $SCRID -n $SCRID -c $SCRID -e $SHELL -c $CMD"
 # XXX: This only works if Xresouces is set (sets the font)
-#-f "$(xrdb -query | grep 'scratch\.font' | cut -f2)" \
+FONT=$(xrdb -query | grep 'scratch\.font' | cut -f2)
+
+# use one single quotes here. eval "${term_cmd}" will expand $term_cmd including
+# "${CMD}". Ie. it is important to run (notice "" around the shell command)
+# alacritty -e $SHELL -c "tmux new-session -A -s scratch -n scratch"
+# to ensure -s and -n are seen as parameters to tmux and not $SHELL
+# A cleaner way would be to drop eval and write the commands in each elif, see
+# previous git commits
+ALACRITTY_CMD='alacritty -t "${SCRID}" --class "${SCRID}" -e $SHELL -c "${CMD}"'
+URXVT_CMD='urxvt -name $SCRID -e $SHELL -c "${CMD}"'
+XST_CMD='xst -t $SCRID -n $SCRID -c $SCRID -f $FONT -e $SHELL -c $CMD'
 
 if [[ -n $scratch ]]; then
     if [[ $focused == $scratch ]]; then
