@@ -1,7 +1,7 @@
 # example configuration
-# https://github.com/baskerville/bspwm/blob/master/examples/sxhkdrc
-
-
+#
+# XXX: Check this some day
+# https://my-take-on.tech/2020/07/03/some-tricks-for-sxhkd-and-bspwm/
 
 # Attach to a detached session. If none is available create a new one, rather
 # than attach to one that is already attached to elsewhere.
@@ -46,7 +46,7 @@ super + slash
 ctrl + alt + l
 	$DOTFILES_BIN/rofi/powermenu
 
-super + b
+super + shift + b
 	$DOTFILES_BIN/rofi/bluetoothmenu
 
 super + Escape
@@ -139,8 +139,8 @@ super + Print
 super + ctrl + Print
 	scrrec -s ~/recordings/$(date +%F-%T).gif
 
-super + shift + b
-    notify-send "Battery Status" "$(acpi)"
+# super + shift + b
+#     notify-send "Battery Status" "$(acpi)"
 
 super + shift + d
     notify-send "Current Time" "$(date)"
