@@ -1,0 +1,50 @@
+#!/bin/sh
+# Source https://github.com/sdushantha/dotfiles/blob/master/bin/bin/utils/ocr
+
+TEXT_FILE="/tmp/ocr.txt"
+IMAGE_FILE="/tmp/ocr.png"
+
+# Check if the needed dependencies are installed
+dependencies="tesseract-ocr
+maim
+notify-send
+xclip"
+for dependency in $dependencies
+do
+	command -v "$dependency" || {
+		notify-send "ocr" "Could not find '${dependency}', is it installed?"
+		exit 1
+	} >/dev/null 2>&1
+done
+
+# shellcheck disable=SC2064
+trap "rm -rf $TEXT_FILE $IMAGE_FILE" EXIT INT TERM
+
+# Take screenshot by selecting the area
+maim -s "$IMAGE_FILE" || exit 1
+
+# Do the magic (∩^o^)⊃━☆ﾟ.*･｡ﾟ
+# Notice how I have removing the extension .txt from the file path. This is
+# because tesseract-ocr adds .txt to the given file path anyways. So if we were to
+# specify /tmp/ocr.txt as the file path, tesseract-ocr would out the text to
+# /tmp/ocr.txt.txt
+tesseract-ocr "$IMAGE_FILE" "${TEXT_FILE%.txt}" 2>/dev/null
+
+# Remove the new page character.
+# Source: https://askubuntu.com/a/1276441/782646
+sed -i 's/\x0c//' "$TEXT_FILE"
+
+# Check if the text was detected by checking number
+# of lines in the file
+NUM_LINES=$(wc -l <$TEXT_FILE)
+if [ "$NUM_LINES" -eq 0 ]
+then
+	notify-send "ocr" "no text was detected"
+	exit 1
+fi
+
+# Copy text to clipboard
+xclip -selection clip <"$TEXT_FILE"
+
+# Send a notification with the text that was grabbed using OCR
+notify-send "ocr" "$(cat $TEXT_FILE)"
