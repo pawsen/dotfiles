@@ -254,11 +254,19 @@
   };
 
   # Personal backups
-  # remember to create the backup dir: mkdir -p /.subvols/snapshots
+  # ensure backup dir /.subvols/snapshots exists
+  # mode: 1700, sticky bit, read/write/execute by owner
+  systemd.tmpfiles.rules = [
+    "d /.subvols/snapshots 1700 root root"
+  ];
   # see the following for how to setup ssh push
   # https://github.com/NixOS/nixpkgs/blob/master/nixos/tests/btrbk.nix
+  # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/services/backup/btrbk.nix
   services.btrbk.instances."btrbk" = {
-    onCalendar = "*:0/15";
+    # systemd.time, https://manpages.ubuntu.com/manpages/xenial/man7/systemd.time.7.html#calendar%20events
+    # Persistent = true; (run timer on boot if calendar event is passed, eg. by
+    # computer being turned off) is set by btrbk.nix
+    onCalendar = "daily";
     settings = {
       snapshot_preserve_min = "2d";
       snapshot_preserve = "48h 20d 6m";
