@@ -123,6 +123,11 @@
     # I manage fish configuration and plugins with home manager, but to enable
     # vendor fish completions provided by Nixpkgs it also needs to be enabled here
     fish.enable = true;
+    fish.promptInit = ''
+        # When entering a nix run environment, the shell stays the same. does not work for nix develop.
+        # Uncommented until I get confident with nix run
+        # any-nix-shell fish --info-right | source
+      '';
   };
 
   users.defaultUserShell = pkgs.fish;
