@@ -58,6 +58,7 @@
       gnupg.enable  = true;
       tmux.enable   = true;
       zsh.enable    = true;
+      fish.enable   = true;
       vaultwarden = {
         enable = true;
         config.server = "vault.bitwarden.com";
@@ -95,6 +96,7 @@
     arandr     # Graphical Interface for xrandr
     autorandr
     rclone  # sync tool for major cloud providers
+    trash-cli  # move to trash
 
     usbutils  # lsusb
     pciutils
@@ -120,14 +122,6 @@
     # for locking the screen with zzz
     slock.enable = true;
 
-    # I manage fish configuration and plugins with home manager, but to enable
-    # vendor fish completions provided by Nixpkgs it also needs to be enabled here
-    fish.enable = true;
-    fish.promptInit = ''
-        # When entering a nix run environment, the shell stays the same. does not work for nix develop.
-        # Uncommented until I get confident with nix run
-        # any-nix-shell fish --info-right | source
-      '';
   };
 
   users.defaultUserShell = pkgs.fish;
@@ -137,20 +131,6 @@
       enable = true;
       nix-direnv.enable = true;
       # enableFishIntegration = true;
-    };
-    fish = {
-      enable = true;
-      plugins = [
-          {
-            name = "z";
-            src = pkgs.fetchFromGitHub {
-              owner = "jethrokuan";
-              repo = "z";
-              rev = "85f863f20f24faf675827fb00f3a4e15c7838d76";
-              sha256 = "sha256-+FUBM7CodtZrYKqU542fQD+ZDGrd2438trKM0tIESs0=";
-            };
-          }
-      ];
     };
     # gives C-r, C-t(find file) and M-c(cd into sub-dirs) shortcuts
     fzf.enable = true;
@@ -162,13 +142,13 @@
         add_newline = false;
       };
     };
-  lsd = {
-    enable = true;
-    # ls, ll, la, lt ...
-    enableAliases = true;
+    lsd = {
+      enable = true;
+      # ls, ll, la, lt ...
+      enableAliases = true;
+    };
+    nix-index.enable = true;
   };
-  nix-index.enable = true;
-};
 
   # dialout group owns the device files - for uploading to arduino, etc
   user.extraGroups = [ "dialout" "networkmanager" "adbusers" "docker" ];
