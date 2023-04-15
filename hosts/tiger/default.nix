@@ -184,7 +184,31 @@
     libgsf   # odf
     poppler  # pdf
 
-    ];
+  ];
+
+  # XDG_UTILS_DEBUG_LEVEL=2 xdg-mime query filetype
+  # get search path in decreasing order
+  # XDG_UTILS_DEBUG_LEVEL=2 xdg-mime query default application/pdf
+  # .desktop files are located at
+  # ls /run/current-system/sw/share/applications
+  # ls /etc/profiles/per-user/paw/share/applications/
+
+  # When packages are included in environment.systemPackages, a nixos module for
+  # creating the system will look for <pkg>/share/applications/*.desktop paths,
+  # and add them to /run/current/sw/...
+  # Generally if you want to put stuff in XDG_DATA_DIRS,you should just copy the
+  # dirextories in $out/share. In this case .desktop files should be copied to
+  # $out/share/applications. Remember to mkdir -p $out/share/applications
+  # beforehand
+  # https://discourse.nixos.org/t/where-are-desktop-files-located/17391
+  xdg.mime.defaultApplications =
+    {
+      "application/pdf" = "org.pwmt.zathura-pdf-mupdf.desktop";
+      "image/png" = [
+        "feh.desktop"
+        "gimp.desktop"
+      ];
+    };
 
 
   # layouts
