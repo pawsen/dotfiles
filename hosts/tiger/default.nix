@@ -111,6 +111,7 @@
     yq # yq is like jq, meaning that it's like sed for YAML data
     # development
     insomnia  # REST api client
+    diffoscope # comparison of files, archives, and directories.
   ];
 
   # from nixos specific recipes
