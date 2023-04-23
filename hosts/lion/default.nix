@@ -55,7 +55,7 @@
     };
     shell = {
       git.enable    = true;
-      gnupg.enable  = true;
+      gnupg.enable  = false;
       tmux.enable   = true;
       zsh.enable    = true;
       fish.enable   = true;
@@ -111,6 +111,11 @@
     yq # yq is like jq, meaning that it's like sed for YAML data
     # development
     insomnia  # REST api client
+
+    tdesktop
+
+    rage   # ssh-key encryption. Implicit installed by agenix.
+    pinentry-gtk2   # benefit of gui pinentry: possible to view the entered password
   ];
 
   # from nixos specific recipes

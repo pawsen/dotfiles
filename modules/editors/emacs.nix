@@ -46,8 +46,11 @@ in {
         ## Optional dependencies
         fd                  # faster projectile indexing
         imagemagick         # for image-dired
-        (mkIf (config.programs.gnupg.agent.enable)
-          pinentry-emacs)   # in-emacs gnupg prompts
+        # XXX: pinentry-emacs somehow breaks rage when using ssh-keys
+        # pinentry-emacs also provides a pinentry binary which rage uses
+        # (mkIf (config.programs.gnupg.agent.enable)
+        #   pinentry-emacs    # in-emacs gnupg prompts
+        # )
         zstd                # for undo-fu-session/undo-tree compression
 
         ## Module dependencies
