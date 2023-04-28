@@ -66,8 +66,12 @@
     };
     services = {
       ssh.enable = true;
+      docker.enable = true;
     };
     theme.active = "alucard";
+    # vm = {
+    #   vagrant.enable = false;
+    # };
   };
 
 
@@ -101,9 +105,6 @@
     usbutils  # lsusb
     pciutils
 
-    # dropin for docker-compose
-    podman-compose
-    distrobox
 
     # modern replacements for old-school stuff
     curlie # wraps curl with modern defaults and httpie-like syntax highlighting
@@ -156,7 +157,7 @@
   };
 
   # dialout group owns the device files - for uploading to arduino, etc
-  user.extraGroups = [ "dialout" "networkmanager" "adbusers" "docker" ];
+  user.extraGroups = ["dialout" "networkmanager" "adbusers"];
 
   services = {
     # Enable CUPS to print documents.
@@ -253,19 +254,6 @@
     longitude = 12.5;
   } else {});
 
-  virtualisation = {
-    # podman is a dropin replacement for docker
-    # https://nixos.wiki/wiki/Podman
-    podman = {
-      enable = true;
-
-      # Create a `docker` alias for podman, to use it as a drop-in replacement
-      dockerCompat = true;
-
-      # Required for containers under podman-compose to be able to talk to each other.
-      defaultNetwork.settings.dns_enabled = true;
-    };
-  };
 
   # Personal backups
   # ensure backup dir /.subvols/snapshots exists
