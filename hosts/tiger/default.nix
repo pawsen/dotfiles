@@ -234,6 +234,11 @@
   services.logind.lidSwitchExternalPower = "ignore";
 
   networking.networkmanager.enable = true;
+  # This should force NetworkManager to use a specific DNS server, instead of
+  # the ones provided by DHCP. Does not seems to work. Use bin/update-dns script
+  # instead
+  networking.networkmanager.insertNameservers = [ "1.1.1.1" "1.0.0.1"];
+
   # The global useDHCP flag is deprecated, therefore explicitly set to false
   # here. Per-interface useDHCP will be mandatory in the future, so this
   # generated config replicates the default behaviour.
