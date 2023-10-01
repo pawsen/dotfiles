@@ -234,16 +234,46 @@
   # https://nixos.org/manual/nixos/stable/options.html#opt-services.logind.lidSwitchExternalPower
   services.logind.lidSwitchExternalPower = "ignore";
 
-  networking.networkmanager.enable = true;
+  networking = {
+    # For DOH
+    nameservers = [ "127.0.0.1" "::1" ];
+    # If using dhcpcd:
+    dhcpcd.extraConfig = "nohook resolv.conf";
+
+    networkmanager.enable = true;
+    # If using NetworkManager:
+    networkmanager.dns = "none";
+  };
   # This should force NetworkManager to use a specific DNS server, instead of
   # the ones provided by DHCP. Does not seems to work. Use bin/update-dns script
   # instead
-  networking.networkmanager.insertNameservers = [ "1.1.1.1" "1.0.0.1"];
+  # networking.networkmanager.insertNameservers = [ "1.1.1.1" "1.0.0.1"];
 
-  # The global useDHCP flag is deprecated, therefore explicitly set to false
-  # here. Per-interface useDHCP will be mandatory in the future, so this
-  # generated config replicates the default behaviour.
-  networking.useDHCP = false;
+  services.dnscrypt-proxy2 = {
+      enable = true;
+      settings = {
+        ipv6_servers = true;
+        require_dnssec = true;
+
+        sources.public-resolvers = {
+          urls = [
+            "https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md"
+            "https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md"
+          ];
+          cache_file = "/var/lib/dnscrypt-proxy2/public-resolvers.md";
+          minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
+        };
+        # Specific set of servers from https://github.com/DNSCrypt/dnscrypt-resolvers/blob/master/v3/public-resolvers.md
+        # The proxy will automatically pick working servers from this list,
+        # ranging them after latency, if server_names is commented(default).
+        server_names = [ "scaleway-fr" "cloudflare" "google" "yandex" ];
+      };
+    };
+
+    systemd.services.dnscrypt-proxy2.serviceConfig = {
+      StateDirectory = "dnscrypt-proxy";
+    };
+
 
   time.timeZone = "Europe/Copenhagen";
   # For redshift, mainly
