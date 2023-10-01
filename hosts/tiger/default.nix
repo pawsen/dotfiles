@@ -81,6 +81,7 @@
   user.packages = with pkgs; [
     # unstable.alacritty
     transmission-qt
+    calibre
     libreoffice
     htop
     freecad
