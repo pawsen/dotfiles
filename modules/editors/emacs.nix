@@ -76,15 +76,24 @@ in {
         nodePackages.bash-language-server  # sh
         ## formatters
         html-tidy             # html
-        shellcheck            # sh
+        jsbeautifier          # html/js/css
+        nodePackages.stylelint# css
+        shellcheck            # sh syntax
+        shfmt                 # sh
         nixfmt                # nix
+        libxml2               # data
+        dockfmt               # docker
 
       ];
       env.PATH = [ "$XDG_CONFIG_HOME/emacs/bin" ];
 
       modules.shell.zsh.rcFiles = [ "${configDir}/emacs/aliases.zsh" ];
-
-      fonts.fonts = [ pkgs.emacs-all-the-icons-fonts ];
+      fonts.fonts = with pkgs; [
+        # list of nerdfonts that can be included
+        # https://github.com/NixOS/nixpkgs/blob/nixos-23.05/pkgs/data/fonts/nerdfonts/shas.nix
+        # (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" "JetBrainsMono" ]; })
+        (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
+      ];
 
       system.userActivationScripts = mkIf cfg.doom.enable {
         installDoomEmacs = ''
