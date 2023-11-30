@@ -64,14 +64,6 @@ alias jc='journalctl -xe'
 alias sc=systemctl
 alias ssc='sudo systemctl'
 
-if (( $+commands[exa] )); then
-  alias exa="exa --group-directories-first --git";
-  alias l="exa -blF";
-  alias ll="exa -abghilmu";
-  alias llm='ll --sort=modified'
-  alias la="LC_COLLATE=C exa -ablF";
-  alias tree='exa --tree'
-fi
 
 if (( $+commands[fasd] )); then
   # fuzzy completion with 'z' when called without args

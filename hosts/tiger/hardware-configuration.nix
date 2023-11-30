@@ -27,9 +27,6 @@
     # kernelPackages = pkgs.linuxPackages_5_14;
   };
 
-  # high-resolution display
-  hardware.video.hidpi.enable = lib.mkDefault true;
-
   modules.hardware = {
     bluetooth.enable = true;
     audio.enable = true;

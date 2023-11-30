@@ -10,7 +10,7 @@ let cfg = config.modules.editors.emacs;
     configDir = config.dotfiles.configDir;
 
     # 29 + emacsGit defined in emacs-overlay
-    MyEmacs = pkgs.emacsGit;
+    MyEmacs = pkgs.emacs-git;
 in {
   options.modules.editors.emacs = {
     enable = mkBoolOpt false;
@@ -88,7 +88,7 @@ in {
       env.PATH = [ "$XDG_CONFIG_HOME/emacs/bin" ];
 
       modules.shell.zsh.rcFiles = [ "${configDir}/emacs/aliases.zsh" ];
-      fonts.fonts = with pkgs; [
+      fonts.packages = with pkgs; [
         # list of nerdfonts that can be included
         # https://github.com/NixOS/nixpkgs/blob/nixos-23.05/pkgs/data/fonts/nerdfonts/shas.nix
         # (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" "JetBrainsMono" ]; })
