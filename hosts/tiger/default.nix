@@ -165,6 +165,9 @@
 
     # Thumbnail previews for file-managers
     tumbler.enable = true; # Thumbnail support for images
+
+    # bluetooth gui
+    blueman.enable = true;
   };
 
   #environment.shellAliases = {
