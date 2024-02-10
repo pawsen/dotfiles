@@ -253,29 +253,49 @@
   # networking.networkmanager.insertNameservers = [ "1.1.1.1" "1.0.0.1"];
 
   services.dnscrypt-proxy2 = {
-      enable = true;
-      settings = {
-        ipv6_servers = true;
-        require_dnssec = true;
+    enable = true;
+    settings = {
+      ipv6_servers = true;
+      require_dnssec = true;
 
-        sources.public-resolvers = {
-          urls = [
-            "https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md"
-            "https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md"
-          ];
-          cache_file = "/var/lib/dnscrypt-proxy2/public-resolvers.md";
-          minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
-        };
-        # Specific set of servers from https://github.com/DNSCrypt/dnscrypt-resolvers/blob/master/v3/public-resolvers.md
-        # The proxy will automatically pick working servers from this list,
-        # ranging them after latency, if server_names is commented(default).
-        server_names = [ "scaleway-fr" "cloudflare" "google" "yandex" ];
+      sources.public-resolvers = {
+        urls = [
+          "https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md"
+          "https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md"
+        ];
+        cache_file = "/var/lib/dnscrypt-proxy2/public-resolvers.md";
+        minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
       };
+      # Specific set of servers from https://github.com/DNSCrypt/dnscrypt-resolvers/blob/master/v3/public-resolvers.md
+      # The proxy will automatically pick working servers from this list,
+      # ranging them after latency, if server_names is commented(default).
+      server_names = [ "scaleway-fr" "cloudflare" "google" "yandex" ];
     };
+  };
 
-    systemd.services.dnscrypt-proxy2.serviceConfig = {
-      StateDirectory = "dnscrypt-proxy";
-    };
+  systemd.services.dnscrypt-proxy2.serviceConfig = {
+    StateDirectory = "dnscrypt-proxy";
+  };
+
+  # Dedicated Chrome instance to log into captive portals without messing with DNS settings
+  # With captive portals we need to use the DNS provided by DHCP. This program
+  # sets up a small proxy using the DHCP dns (from nmcli dev show | grep IP4.DNS
+  # if using networkmanager). The browser then uses the proxy to connect to the
+  # captive portal. The proxy stops when the browser exists.
+  # see https://words.filippo.io/captive-browser/
+  #
+  # This module(captive-browser) uses the proxy pkgs.captive-browser, defined:
+  # https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/browsers/captive-browser/default.nix
+  programs.captive-browser = {
+    enable = true;
+    interface = "wlp2s0";
+
+    # it should be possible to use firefox instead, as described here:
+    # https://github.com/FiloSottile/captive-browser/issues/20#issuecomment-757305465
+    # This requires setting up a dedicated firefox profile in home-manager and
+    # changing the browser setting for this module to
+    # browser = firefox -P "captive-browser" --no-remote --private-window "http://detectportal.firefox.com/success.txt";
+  };
 
 
   time.timeZone = "Europe/Copenhagen";
