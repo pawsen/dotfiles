@@ -85,6 +85,13 @@
     libreoffice
     htop
     freecad
+    # python packages required to install InventorLoader addon to freecad
+    # python3Packages.ezdxf
+    # python3Packages.xlrd
+    # xlutils is not in nixos. It's deprecated. See also https://github.com/jmplonka/InventorLoader/pull/78
+    # python3Packages.xlutils
+    # python3Packages.xlwt
+
     #  weechat  # cli-irc
     unstable.signal-desktop
     unstable.discord
