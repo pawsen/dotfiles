@@ -131,6 +131,12 @@
     # for locking the screen with zzz
     slock.enable = true;
 
+    # Run unpatched dynamic binaries on NixOS.
+    # While many proprietary packages in nixpkgs have already been patched with
+    # autoPatchelfHook patching, this is not the case for e.g. downloaded binary
+    # executables
+    # see https://github.com/Mic92/nix-ld for more
+    nix-ld.enable = true;
   };
 
   users.defaultUserShell = pkgs.fish;
@@ -175,6 +181,14 @@
 
     # bluetooth gui
     blueman.enable = true;
+
+    # A fuse filesystem that dynamically populates contents of /bin and
+    # /usr/bin/ so that it contains all executables from the PATH of the
+    # requesting process. This allows executing FHS based programs on a non-FHS
+    # system. For example, this is useful to execute shebangs on NixOS that
+    # assume hard coded locations like /bin or /usr/bin etc.
+    # see https://github.com/Mic92/envfs for details
+    envfs.enable = true;
   };
 
   #environment.shellAliases = {
