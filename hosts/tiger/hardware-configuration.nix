@@ -77,6 +77,9 @@
   # revert to using the acpi-cpufreq driver
   boot.kernelParams = [ "intel_pstate=disable" ];
 
+  # hibernate when battery is critically low
+  services.upower.criticalPowerAction = "Hibernate";
+
   # services.power-profiles-daemon needs to be disabled; it conflicts with tlp
   services.power-profiles-daemon.enable = false;
 
