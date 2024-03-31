@@ -120,6 +120,8 @@
     # development
     insomnia  # REST api client
     diffoscope # comparison of files, archives, and directories.
+
+    tailscale
   ];
 
   # from nixos specific recipes
@@ -181,6 +183,11 @@
 
     # bluetooth gui
     blueman.enable = true;
+
+    tailscale = {
+      enable = true;
+      useRoutingFeatures = "client";
+    };
 
     # A fuse filesystem that dynamically populates contents of /bin and
     # /usr/bin/ so that it contains all executables from the PATH of the
