@@ -25,6 +25,10 @@
     # Set specific kernel version. If not set, latest will be used (specified in
     # default.nix)
     # kernelPackages = pkgs.linuxPackages_5_14;
+
+    # allow for cross compiling to ARM64
+    # https://nixos.wiki/wiki/NixOS_on_ARM#Compiling_through_binfmt_QEMU
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   modules.hardware = {
