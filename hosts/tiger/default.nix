@@ -216,7 +216,8 @@
     # system. For example, this is useful to execute shebangs on NixOS that
     # assume hard coded locations like /bin or /usr/bin etc.
     # see https://github.com/Mic92/envfs for details
-    envfs.enable = true;
+    # XXX: disables as it seems to crash the system...
+    # envfs.enable = true;
   };
 
   #environment.shellAliases = {
