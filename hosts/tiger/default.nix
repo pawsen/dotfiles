@@ -165,6 +165,27 @@
       enableAliases = true;
     };
     nix-index.enable = true;
+
+    rbw = {
+      # Note to users of the official Bitwarden server (at bitwarden.com): The
+      # official server has a tendency to detect command line traffic as bot
+      # traffic (see this issue for details). In order to use rbw with the
+      # official Bitwarden server, you will need to first run rbw register to
+      # register each device using rbw with the Bitwarden server. This will
+      # prompt you for your personal API key
+      enable = true;
+      package = (pkgs.rbw.override { withFzf = true; withRofi = true;});
+      settings = {
+        # if base_url is unset (null), it will default to api.bitwarden.com
+        # base_url = "https://vault.bitwarden.com";
+        # identity_url = "https://identity.bitwarden.com";
+        # notifications_url = "https://notifications.bitwarden.com";
+        # email = "$(${pkgs.coreutils}/bin/cat ${config.age.secrets.bitwarden-email.path})";
+        email = "pawsen+bitwarden@gmail.com";
+        # pinentry = pkgs.pinentry-curses;
+        pinentry = pkgs.pinentry-gtk2;
+      };
+    };
   };
 
   # dialout group owns the device files - for uploading to arduino, etc
