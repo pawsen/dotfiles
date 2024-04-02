@@ -66,8 +66,8 @@ in {
         # beancount
         # unstable.fava  # HACK Momentarily broken on nixos-unstable
         # :lang rust
-        # rustfmt
-        # unstable.rust-analyzer
+        rustfmt
+        rust-analyzer
 
         ## lsp
         nodePackages.pyright  # python

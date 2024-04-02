@@ -33,6 +33,7 @@ in {
         python3Packages.setuptools
         # poetry is promoted to a top-level attribute,
         poetry
+        python3Packages.numpy
       ];
 
       environment.shellAliases = {
