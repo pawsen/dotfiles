@@ -66,6 +66,7 @@
     };
     services = {
       ssh.enable = true;
+      syncthing.enable = true;
     };
     theme.active = "alucard";
   };
