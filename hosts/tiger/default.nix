@@ -388,12 +388,20 @@
     # computer being turned off) is set by btrbk.nix
     onCalendar = "daily";
     settings = {
+
+
+      # only relevant for streaming snapshots - requires host to have btrfs drives
+      # ssh_user = "btrbk";
+      # ssh_identity = "/home/paw/.ssh/btrbk";
+      # stream_compress = "lz4";
       snapshot_preserve_min = "2d";
       snapshot_preserve = "48h 20d 6m";
       volume = {
         "/.subvols" = {
           subvolume = "@home";
           snapshot_dir = "snapshots";
+          # requires btrfs drive at the recieving end
+          # target = "ssh://ssh.pawsen.net/mnt/share/backups/tiger";
         };
       };
     };
