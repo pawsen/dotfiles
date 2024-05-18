@@ -373,6 +373,34 @@
     };
   };
 
+  # https://www.reddit.com/user/FictionWorm____/comments/vho8el/borgbackup_setup_ssh_for_a_remote_repo/
+  # services.borgbackup.jobs.tiger = {
+  #   paths = "/home/paw";
+  #   encryption.mode = "none";
+  #   environment.BORG_RSH = "${pkgs.tailscale}/bin/tailscale ssh";
+  #   repo = "btrbk@hetzner:/mnt/share/backups/tiger";
+  #   compression = "auto,zstd";
+  #   startAt = "daily";
+  # };
+
+  # restic can only do encrypted backups. It's a feature!
+  # services.restic.backups = {
+  #   tiger = {
+  #     # user = "btrbk";
+  #     # https://forum.restic.net/t/slow-backup-with-many-small-files-via-sftp/7277
+  #     repository = "sftp::/mnt/share/backups/tiger";
+  #     extraOptions = [
+  #       "sftp.command='tailscale ssh root@hetzner -s sftp'"
+  #       # "sftp.command='ssh btrbk@ssh.pawsen.net -i /home/user/.ssh/btrbk -s sftp'"
+  #     ];
+  #     initialize = true; # initializes the repo, don't set if you want manual control
+  #     # read thhis, for passwordfile and agenix
+  #     # https://www.arthurkoziel.com/restic-backups-b2-nixos/
+  #     passwordFile = "<path>";
+  #     paths = [ "/home/paw" ];
+  #   };
+  # };
+
   # Personal backups
   # ensure backup dir /.subvols/snapshots exists
   # mode: 1700, sticky bit, read/write/execute by owner
