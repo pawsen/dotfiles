@@ -71,6 +71,13 @@
     theme.active = "alucard";
   };
 
+  hardware = {
+    # Enables rtl-sdr udev rules, ensures ‘plugdev’ group exists, and blacklists
+    # DVB kernel modules. This is a prerequisite to using devices supported by
+    # rtl-sdr without being root, since rtl-sdr USB descriptors will be owned by
+    # plugdev through udev.
+    rtl-sdr.enable = true;
+  };
 
   ## Local config
   programs.ssh.startAgent = true;
