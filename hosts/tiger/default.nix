@@ -197,9 +197,12 @@
   };
 
   # dialout group owns the device files - for uploading to arduino, etc
-  user.extraGroups = [ "dialout" "networkmanager" "adbusers" "docker" ];
+  # plugdev is for rtl-sdr
+  user.extraGroups = [ "dialout" "networkmanager" "adbusers" "docker" "plugdev" ];
 
   services = {
+    avahi.enable = true;
+
     # Enable CUPS to print documents.
     printing.enable = true;
     printing.drivers = with pkgs; [hplip];
@@ -247,6 +250,9 @@
     libgsf   # odf
     poppler  # pdf
 
+    # machine emulator and virtualization
+    qemu
+    quickemu
   ];
 
   # XDG_UTILS_DEBUG_LEVEL=2 xdg-mime query filetype
