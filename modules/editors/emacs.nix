@@ -70,7 +70,7 @@ in {
         rust-analyzer
 
         ## lsp
-        nodePackages.pyright  # python
+        pyright  # python
         # HTML/CSS/JSON/ESLint language servers extracted from vscode.
         nodePackages.vscode-langservers-extracted
         nodePackages.bash-language-server  # sh
