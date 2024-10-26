@@ -78,7 +78,9 @@ super + {_,ctrl +}{h,j,k,l}
 super + shift + {_,ctrl +}{h,j,k,l}
 	$DOTFILES_BIN/bspwm/swap {_,-m }{west,south,north,east}
 
-
+# flip layout
+super + {_,shift +} v
+	bspc node @parent -R 90
 ##
 
 # Close window or force-kill it!

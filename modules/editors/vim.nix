@@ -27,7 +27,7 @@ in {
           packages.myPlugins = with pkgs.vimPlugins; {
             start = [
               vim-surround # Shortcuts for setting () {} etc.
-              coc-nvim coc-git coc-highlight coc-python coc-rls coc-vetur coc-vimtex coc-yaml coc-html coc-json # auto completion
+              coc-nvim coc-git coc-highlight coc-pyright coc-rls coc-vetur coc-vimtex coc-yaml coc-html coc-json # auto completion
               vim-nix # nix highlight
               vimtex # latex stuff
               fzf-vim # fuzzy finder through vim
