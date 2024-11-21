@@ -198,7 +198,7 @@
 
   # dialout group owns the device files - for uploading to arduino, etc
   # plugdev is for rtl-sdr
-  user.extraGroups = [ "dialout" "networkmanager" "adbusers" "docker" "plugdev" ];
+  user.extraGroups = [ "dialout" "networkmanager" "adbusers" "docker" "plugdev" "wireshark" ];
 
   services = {
     avahi.enable = true;
@@ -253,6 +253,11 @@
     # machine emulator and virtualization
     qemu
     quickemu
+
+    # rtl-sdr-osmocom is better for rtl-sdr v4
+    # (urh.override { rtl-sdr = rtl-sdr-osmocom; })
+    my.urh
+    # (rtl_433.override { rtl-sdr = rtl-sdr-osmocom; })
   ];
 
   # XDG_UTILS_DEBUG_LEVEL=2 xdg-mime query filetype
