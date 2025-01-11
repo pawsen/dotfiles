@@ -45,7 +45,13 @@ in {
 
         ## Optional dependencies
         fd                  # faster projectile indexing
+        # specific for dired/dirvish
         imagemagick         # for image-dired
+        poppler             # for pdf preview
+        ffmpegthumbnailer   # for video preview
+        mediainfo           # for audio/video metadata generation,
+        gnutar              # for archive files previews.
+        unzip               # for archive files previews.
         # XXX: pinentry-emacs somehow breaks rage when using ssh-keys
         # pinentry-emacs also provides a pinentry binary which rage uses
         # (mkIf (config.programs.gnupg.agent.enable)
