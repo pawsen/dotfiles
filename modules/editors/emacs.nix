@@ -45,13 +45,6 @@ in {
 
         ## Optional dependencies
         fd                  # faster projectile indexing
-        # specific for dired/dirvish
-        imagemagick         # for image-dired
-        poppler             # for pdf preview
-        ffmpegthumbnailer   # for video preview
-        mediainfo           # for audio/video metadata generation,
-        gnutar              # for archive files previews.
-        unzip               # for archive files previews.
         # XXX: pinentry-emacs somehow breaks rage when using ssh-keys
         # pinentry-emacs also provides a pinentry binary which rage uses
         # (mkIf (config.programs.gnupg.agent.enable)
@@ -60,6 +53,14 @@ in {
         zstd                # for undo-fu-session/undo-tree compression
 
         ## Module dependencies
+        # : tools dired
+        # specific for dired/dirvish
+        imagemagick         # for image-dired
+        poppler             # for pdf preview
+        ffmpegthumbnailer   # for video preview
+        mediainfo           # for audio/video metadata generation,
+        gnutar              # for archive files previews.
+        unzip               # for archive files previews.
         # :checkers spell
         (aspellWithDicts (ds: with ds; [ en en-computers en-science da ]))
         # :tools editorconfig
@@ -69,6 +70,7 @@ in {
         # :lang latex & :lang org (latex previews)
         texlive.combined.scheme-medium
         gnuplot
+        maim                # for org-download-clipboard
         # :lang beancount
         # beancount
         # unstable.fava  # HACK Momentarily broken on nixos-unstable

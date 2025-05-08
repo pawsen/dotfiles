@@ -19,7 +19,7 @@ python3Packages.buildPythonApplication rec {
     sha256 = "sha256-r3d80dzGwgf5Tuwt1IWGcmNbblwBNKTKKm+GGx1r2HE=";
   };
 
-  nativeBuildInputs = [ qt5.wrapQtAppsHook wrapGAppsHook copyDesktopItems
+  nativeBuildInputs = [ qt5.wrapQtAppsHook wrapGAppsHook
                         imagemagick # to make icons
                       ];
   buildInputs = [ hackrf rtl-sdr-osmocom airspy limesuite libiio libbladeRF ]
