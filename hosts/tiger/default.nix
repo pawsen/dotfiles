@@ -130,6 +130,7 @@
     diffoscope # comparison of files, archives, and directories.
 
     tailscale
+    xdragon # simple drag-and-drop source/sink for X
   ];
 
   # from nixos specific recipes
@@ -259,6 +260,15 @@
     my.urh
     # (rtl_433.override { rtl-sdr = rtl-sdr-osmocom; })
   ];
+
+  # NixOS sets /tmp to be backed by disk by default. But we change it to ram in modules/security.nix
+  # https://search.nixos.org/options?query=useTmp
+  # building packages runs inside of /tmp (which is now constrained by ram size)
+  # use /var/tmp instead which is backed by disk:
+  # (OR use the build-dir option to the nix command)
+  # (https://nix.dev/manual/nix/2.24/command-ref/conf-file.html#conf-build-dir)
+  # XXX use the build-dir option. Kept as note for the future.
+  # systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp";
 
   # XDG_UTILS_DEBUG_LEVEL=2 xdg-mime query filetype
   # get search path in decreasing order
