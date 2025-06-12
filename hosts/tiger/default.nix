@@ -201,13 +201,22 @@
   # plugdev is for rtl-sdr
   user.extraGroups = [ "dialout" "networkmanager" "adbusers" "docker" "plugdev" "wireshark" ];
 
-  services = {
-    avahi.enable = true;
-
+  # Enable autodiscovery of network printers (UDP port 5353)
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    # openFirewall defaults to true, but let's be explicit
+    openFirewall = true;
+  };
+  services.printing = {
     # Enable CUPS to print documents.
-    printing.enable = true;
-    printing.drivers = with pkgs; [hplip];
+    enable = true;
+    drivers = with pkgs; [hplip];
+    # only open the firewall if a local printer should be shared
+    # openFirewall = true;
+  };
 
+  services = {
     # gnome virtual fs. For automounting and trash. For CLI tool, see udevil.
     gvfs.enable = true;
 
