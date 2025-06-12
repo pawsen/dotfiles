@@ -259,6 +259,24 @@
     # (urh.override { rtl-sdr = rtl-sdr-osmocom; })
     my.urh
     # (rtl_433.override { rtl-sdr = rtl-sdr-osmocom; })
+
+    # NetworkManager can generate WPA2 Enterprise profiles with graphical front ends. nmcli and nmtui
+    # do not support this, but may use existing profiles.
+    # It might be possible to create a profile using nmcli, https://unix.stackexchange.com/a/334675
+    # but an easier solution is to use nm-applet.
+    # Run nm-applet without a systray and kill it after use (no extra memory is used then)
+    (writeShellScriptBin "nmgui" ''
+      ${pkgs.networkmanagerapplet}/bin/nm-applet 2>&1 > /dev/null &
+      NM_PID=$!
+      # Ensure nm-applet is killed on exit or interruption
+      trap "kill $NM_PID 2>/dev/null" EXIT INT TERM
+      ${pkgs.stalonetray}/bin/stalonetray 2>&1 > /dev/null
+      # # Fallback kill (in case trap missed) - but will that ever happen?
+      ${pkgs.procps}/bin/pkill nm-applet
+    '')
+    networkmanagerapplet
+    stalonetray
+    procps  # for pkill
   ];
 
   # NixOS sets /tmp to be backed by disk by default. But we change it to ram in modules/security.nix
