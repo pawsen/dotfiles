@@ -113,6 +113,7 @@
     autorandr
     rclone  # sync tool for major cloud providers
     trash-cli  # move to trash
+    hydra-check  # check build status for packages on hydra
 
     usbutils  # lsusb
     pciutils
