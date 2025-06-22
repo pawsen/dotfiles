@@ -265,8 +265,9 @@
     quickemu
 
     # rtl-sdr-osmocom is better for rtl-sdr v4
+    # XXX as of 2025, rtl-sdr point to rtl-sdr-osmocom
     # (urh.override { rtl-sdr = rtl-sdr-osmocom; })
-    my.urh
+    # my.urh
     # (rtl_433.override { rtl-sdr = rtl-sdr-osmocom; })
 
     # NetworkManager can generate WPA2 Enterprise profiles with graphical front ends. nmcli and nmtui
