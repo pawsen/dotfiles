@@ -55,12 +55,15 @@ in {
         ## Module dependencies
         # : tools dired
         # specific for dired/dirvish
-        imagemagick         # for image-dired
+        imagemagick         # for font preview
+        vips                # vipsthumbnail for image preview
         poppler             # for pdf preview
         ffmpegthumbnailer   # for video preview
         mediainfo           # for audio/video metadata generation,
-        gnutar              # for archive files previews.
-        unzip               # for archive files previews.
+        # epub-thumbnailer    # for epubs XXX introduced in 24.11, I run 24.05...
+        # p7zip, port of 7zip, originally windows only. For dirvish archive file preview
+        (p7zip.override {enableUnfree = true;})
+
         # :checkers spell
         (aspellWithDicts (ds: with ds; [ en en-computers en-science da ]))
         # :tools editorconfig
