@@ -27,4 +27,6 @@ in {
   };
 
   swapDevices = [ { device = swapDev; } ];
+  # you shouldn’t have to manually set boot.resumeDevice unless you’re using boot.initrd.systemd.enable
+  #boot.resumeDevice = swapDev;
 }

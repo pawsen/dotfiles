@@ -384,7 +384,21 @@
   systemd.services.dnscrypt-proxy2.serviceConfig = {
     StateDirectory = "dnscrypt-proxy";
   };
-
+  # hibernate after fixed time on sleep to prevent draining the battery
+  # ensure that hibernation is not disabled by a kernel parameter (nohibernate):
+  # cat /proc/cmdline         # must not have nohibernate
+  # cat /sys/power/state      # needs disk for hibarnation
+  # Two types of sleep, s2idle is modern, OS controlled and fast. Uses 1-2W
+  # cat /sys/power/mem_sleep
+  # Check the sleep time before waking up
+  # systemd-analyze cat-config systemd/sleep.conf
+  # cat /sys/power/mem_sleep  # [s2idle] deep   (brackets mark the current default)
+  # systemctl suspend-then-hibernate
+  # journalctl -b -u systemd-suspend-then-hibernate.service
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=3h
+    SuspendState=mem
+  '';
   # Dedicated Chrome instance to log into captive portals without messing with DNS settings
   # With captive portals we need to use the DNS provided by DHCP. This program
   # sets up a small proxy using the DHCP dns (from nmcli dev show | grep IP4.DNS

@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 rofi_command="rofi -theme theme/powermenu.rasi"
 
@@ -6,7 +6,7 @@ rofi_command="rofi -theme theme/powermenu.rasi"
 power_off=$(echo -e "\tShutdown")
 reboot=$(echo -e "\tReboot")
 lock=$(echo -e "\tLock")
-suspend=$(echo -e "鈴\tSleep")
+suspend=$(echo -e '鈴\tSleep then hibernate(3h)')
 log_out=$(echo -e "\tLogout")
 # Variable passed to rofi
 options="$power_off\n$reboot\n$lock\n$suspend\n$log_out"
@@ -23,7 +23,7 @@ case "$field" in
         ;;
     $suspend)
         dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Pause
-        systemctl suspend
+        systemctl suspend-then-hibernate
         ;;
     $log_out)
         bspc quit
