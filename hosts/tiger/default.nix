@@ -143,6 +143,9 @@
     # for locking the screen with zzz
     slock.enable = true;
 
+    # install the app on android devices as well. Easy sharing of files
+    kdeconnect.enable = true;
+
     # Run unpatched dynamic binaries on NixOS.
     # While many proprietary packages in nixpkgs have already been patched with
     # autoPatchelfHook patching, this is not the case for e.g. downloaded binary
