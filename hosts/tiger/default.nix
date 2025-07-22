@@ -155,48 +155,71 @@
   };
 
   users.defaultUserShell = pkgs.fish;
-  # home-mamanger packages
-  home-manager.users.${config.user.name}.programs = {
-    direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-      # enableFishIntegration = true;
-    };
-    # gives C-r, C-t(find file) and M-c(cd into sub-dirs) shortcuts
-    fzf.enable = true;
-    dircolors.enable = true;
-    starship = {
-      enable = true;
-      enableFishIntegration = true;
-      settings = {
-        add_newline = false;
-      };
-    };
-    lsd = {
-      enable = true;
-      # ls, ll, la, lt ...
-      enableAliases = true;
-    };
-    nix-index.enable = true;
 
-    rbw = {
-      # Note to users of the official Bitwarden server (at bitwarden.com): The
-      # official server has a tendency to detect command line traffic as bot
-      # traffic (see this issue for details). In order to use rbw with the
-      # official Bitwarden server, you will need to first run rbw register to
-      # register each device using rbw with the Bitwarden server. This will
-      # prompt you for your personal API key
-      enable = true;
-      package = (pkgs.rbw.override { withFzf = true; withRofi = true;});
-      settings = {
-        # if base_url is unset (null), it will default to api.bitwarden.com
-        # base_url = "https://vault.bitwarden.com";
-        # identity_url = "https://identity.bitwarden.com";
-        # notifications_url = "https://notifications.bitwarden.com";
-        # email = "$(${pkgs.coreutils}/bin/cat ${config.age.secrets.bitwarden-email.path})";
-        email = "pawsen+bitwarden@gmail.com";
-        # pinentry = pkgs.pinentry-curses;
-        pinentry = pkgs.pinentry-gtk2;
+  # home-mamanger packages
+  home-manager.users.${config.user.name} = {
+    # trying to set DPI and font in Xresources
+    xresources.properties = {
+      "Xft.dpi" = "144";         # change to taste
+      "Xcursor.size" = "32";
+
+      "*.font" = "xft:Fira Code:pixelsize=16";
+      "Emacs.font" = "Fira Code:pixelsize=16";
+      "st.font" = "monospace:pixelsize=16";
+      "URxvt*.font" = "xft:monospace:pixelsize=16";
+    };
+
+    # needed for xrdb -merge ~/.Xresources
+    # Some Xresources fonts are set by the modules and seems to overwritte settings above
+    # [[file:../../modules/themes/default.nix::home.configFile = {]]
+    # copied to ~/.config/xtheme/
+    xsession.enable = true;
+    xsession.initExtra = ''
+      xrdb -merge ~/.Xresources
+    '';
+
+    programs = {
+      direnv = {
+        enable = true;
+        nix-direnv.enable = true;
+        # enableFishIntegration = true;
+      };
+      # gives C-r, C-t(find file) and M-c(cd into sub-dirs) shortcuts
+      fzf.enable = true;
+      dircolors.enable = true;
+      starship = {
+        enable = true;
+        enableFishIntegration = true;
+        settings = {
+          add_newline = false;
+        };
+      };
+      lsd = {
+        enable = true;
+        # ls, ll, la, lt ...
+        enableAliases = true;
+      };
+      nix-index.enable = true;
+
+      rbw = {
+        # Note to users of the official Bitwarden server (at bitwarden.com): The
+        # official server has a tendency to detect command line traffic as bot
+        # traffic (see this issue for details). In order to use rbw with the
+        # official Bitwarden server, you will need to first run rbw register to
+        # register each device using rbw with the Bitwarden server. This will
+        # prompt you for your personal API key
+        enable = true;
+        package = (pkgs.rbw.override { withFzf = true; withRofi = true;});
+        settings = {
+          # if base_url is unset (null), it will default to api.bitwarden.com
+          # base_url = "https://vault.bitwarden.com";
+          # identity_url = "https://identity.bitwarden.com";
+          # notifications_url = "https://notifications.bitwarden.com";
+          # email = "$(${pkgs.coreutils}/bin/cat ${config.age.secrets.bitwarden-email.path})";
+          email = "pawsen+bitwarden@gmail.com";
+          # pinentry = pkgs.pinentry-curses;
+          pinentry = pkgs.pinentry-gtk2;
+        };
       };
     };
   };
@@ -348,6 +371,9 @@
     displayManager = {
       autoLogin = { enable = true; user = "paw"; };
     };
+    # trying to set DPI. Alse set DPI in Xresources using home-manger
+    # nix shell nixpkgs#xorg.xdpyinfo -c xdpyinfo | grep resolution
+    dpi = 144;  # ≈150% scale
   };
   # Use same config for linux console
   console.useXkbConfig = true;
