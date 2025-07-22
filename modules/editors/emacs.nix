@@ -120,6 +120,7 @@ in {
     (mkIf cfg.daemon {
       services.emacs.package = MyEmacs;
       services.emacs.enable = true;
+      # services.emacs.defaultEditor = true;
     })
   ]);
 }

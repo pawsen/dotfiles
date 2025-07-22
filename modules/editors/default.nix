@@ -9,6 +9,8 @@ in {
   };
 
   config = mkIf (cfg.default != null) {
+    # This is the correct way to set a env var. But hlissner made a shortcut used below
+    # environment.variables.EDITOR = cfg.default;
     env.EDITOR = cfg.default;
   };
 }

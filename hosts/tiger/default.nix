@@ -42,7 +42,7 @@
       };
     };
     editors = {
-      default = "nvim";
+      default = "vim";
       emacs = {
         enable = true;
         daemon = true;
@@ -204,6 +204,13 @@
   # dialout group owns the device files - for uploading to arduino, etc
   # plugdev is for rtl-sdr
   user.extraGroups = [ "dialout" "networkmanager" "adbusers" "docker" "plugdev" "wireshark" ];
+
+  # let sudo keep the EDITOR varibles
+  # sudo -l, env_keep+=
+  security.sudo.extraConfig = ''
+    Defaults env_editor
+    Defaults env_keep += "EDITOR VISUAL SUDO_EDITOR SYSTEMD_EDITOR"
+  '';
 
   # Enable autodiscovery of network printers (UDP port 5353)
   services.avahi = {
