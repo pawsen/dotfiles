@@ -117,6 +117,7 @@
 
     rage   # ssh-key encryption. Implicit installed by agenix.
     pinentry-gtk2   # benefit of gui pinentry: possible to view the entered password
+
   ];
 
   # from nixos specific recipes
@@ -127,7 +128,6 @@
 
     # for locking the screen with zzz
     slock.enable = true;
-
   };
 
   users.defaultUserShell = pkgs.fish;
@@ -159,6 +159,13 @@
   # dialout group owns the device files - for uploading to arduino, etc
   user.extraGroups = ["dialout" "networkmanager" "adbusers"];
 
+  # Enable autodiscovery of network printers (UDP port 5353)
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    # openFirewall defaults to true, but let's be explicit
+    openFirewall = true;
+  };
   services = {
     # Enable CUPS to print documents.
     printing.enable = true;
@@ -169,6 +176,9 @@
 
     # Thumbnail previews for file-managers
     tumbler.enable = true; # Thumbnail support for images
+
+    # bluetooth gui
+    blueman.enable = true;
   };
 
   #environment.shellAliases = {
@@ -190,7 +200,75 @@
     libgsf   # odf
     poppler  # pdf
 
+    # NetworkManager can generate WPA2 Enterprise profiles with graphical front ends. nmcli and nmtui
+    # do not support this, but may use existing profiles.
+    # It might be possible to create a profile using nmcli, https://unix.stackexchange.com/a/334675
+    # but an easier solution is to use nm-applet.
+    # Run nm-applet without a systray and kill it after use (no extra memory is used then)
+    (writeShellScriptBin "nmgui" ''
+      ${pkgs.networkmanagerapplet}/bin/nm-applet 2>&1 > /dev/null &
+      NM_PID=$!
+      # Ensure nm-applet is killed on exit or interruption
+      trap "kill $NM_PID 2>/dev/null" EXIT INT TERM
+      ${pkgs.stalonetray}/bin/stalonetray 2>&1 > /dev/null
+      # # Fallback kill (in case trap missed) - but will that ever happen?
+      ${pkgs.procps}/bin/pkill nm-applet
+    '')
+    networkmanagerapplet
+    stalonetray
+    procps  # for pkill
   ];
+
+
+  # DoH
+  # https://tsawyer87.github.io/posts/hardening_networking/
+  networking = {
+    # For DOH
+    nameservers = [ "127.0.0.1" "::1" ];
+    # If using dhcpcd:
+    dhcpcd.extraConfig = "nohook resolv.conf";
+
+    # If using NetworkManager:
+    networkmanager.enable = true;
+    networkmanager.dns = "none";
+  };
+  services.dnscrypt-proxy2 = {
+    enable = true;
+    settings = {
+      ipv6_servers = true;
+      require_dnssec = true;
+
+      sources.public-resolvers = {
+        urls = [
+          "https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md"
+          "https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md"
+        ];
+        cache_file = "/var/lib/dnscrypt-proxy2/public-resolvers.md";
+        minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
+      };
+      # Specific set of servers from https://github.com/DNSCrypt/dnscrypt-resolvers/blob/master/v3/public-resolvers.md
+      # The proxy will automatically pick working servers from this list,
+      # ranging them after latency, if server_names is commented(default).
+      server_names = [ "scaleway-fr" "cloudflare" "google" "yandex" ];
+    };
+  };
+
+  systemd.services.dnscrypt-proxy2.serviceConfig = {
+    StateDirectory = "dnscrypt-proxy";
+  };
+  # This module(captive-browser) uses the proxy pkgs.captive-browser, defined:
+  # https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/browsers/captive-browser/default.nix
+  programs.captive-browser = {
+    enable = true;
+    interface = "wlp0*";
+
+    # it should be possible to use firefox instead, as described here:
+    # https://github.com/FiloSottile/captive-browser/issues/20#issuecomment-757305465
+    # This requires setting up a dedicated firefox profile in home-manager and
+    # changing the browser setting for this module to
+    # browser = firefox -P "captive-browser" --no-remote --private-window "http://detectportal.firefox.com/success.txt";
+  };
+
 
   # XDG_UTILS_DEBUG_LEVEL=2 xdg-mime query filetype
   # get search path in decreasing order
@@ -238,11 +316,6 @@
   # https://nixos.org/manual/nixos/stable/options.html#opt-services.logind.lidSwitchExternalPower
   services.logind.lidSwitchExternalPower = "ignore";
 
-  networking.networkmanager.enable = true;
-  # The global useDHCP flag is deprecated, therefore explicitly set to false
-  # here. Per-interface useDHCP will be mandatory in the future, so this
-  # generated config replicates the default behaviour.
-  networking.useDHCP = false;
 
   time.timeZone = "Europe/Copenhagen";
   # For redshift, mainly
@@ -254,6 +327,21 @@
     longitude = 12.5;
   } else {});
 
+  # hibernate after fixed time on sleep to prevent draining the battery
+  # ensure that hibernation is not disabled by a kernel parameter (nohibernate):
+  # cat /proc/cmdline         # must not have nohibernate
+  # cat /sys/power/state      # needs disk for hibarnation
+  # Two types of sleep, s2idle is modern, OS controlled and fast. Uses 1-2W
+  # cat /sys/power/mem_sleep
+  # Check the sleep time before waking up
+  # systemd-analyze cat-config systemd/sleep.conf
+  # cat /sys/power/mem_sleep  # [s2idle] deep   (brackets mark the current default)
+  # systemctl suspend-then-hibernate
+  # journalctl -b -u systemd-suspend-then-hibernate.service
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=3h
+    SuspendState=mem
+  '';
 
   # Personal backups
   # ensure backup dir /.subvols/snapshots exists
