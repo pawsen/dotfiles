@@ -9,22 +9,17 @@ with lib.my;
 let cfg = config.modules.editors.emacs;
     configDir = config.dotfiles.configDir;
 
-    # 29 + emacsGit defined in emacs-overlay
-    MyEmacs = pkgs.emacs-git;
+    emacs = with pkgs; (emacsPackagesFor emacs29-gtk3).emacsWithPackages
+      (epkgs: with epkgs; [
+         treesit-grammars.with-all-grammars
+         vterm
+         # mu4e
+      ]);
+
 in {
   options.modules.editors.emacs = {
     enable = mkBoolOpt false;
     daemon = mkBoolOpt false;
-    doom = rec {
-      enable = mkBoolOpt false;
-      forgeUrl = mkOpt types.str "https://github.com";
-      # repoUrl = mkOpt types.str "${forgeUrl}/doomemacs/doomemacs";
-      # configRepoUrl = mkOpt types.str "${forgeUrl}/hlissner/doom-emacs-private";
-
-      # XXX some error hen doing above: Cannot coerce a set to a string
-      repoUrl = mkOpt types.str "https://github.com/doomemacs/doomemacs";
-      configRepoUrl = mkOpt types.str "https://github.com/hlissner/doom-emacs-private";
-    };
   };
 
   config = mkIf cfg.enable (mkMerge [
@@ -33,10 +28,8 @@ in {
 
       user.packages = with pkgs; [
         ## Emacs itself
-        binutils       # native-comp needs 'as', provided by this
-        # 29 + pgtk + native-comp
-        ((emacsPackagesFor MyEmacs).emacsWithPackages
-          (epkgs: [ epkgs.vterm ]))
+        binutils            # native-comp needs 'as', provided by this
+        emacs               # HEAD + native-comp
 
         ## Doom dependencies
         git
@@ -53,6 +46,9 @@ in {
         zstd                # for undo-fu-session/undo-tree compression
 
         ## Module dependencies
+        # :email mu4e
+        #mu
+        #isync
         # : tools dired
         # specific for dired/dirvish
         imagemagick         # for font preview
@@ -106,19 +102,10 @@ in {
         # (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" "JetBrainsMono" ]; })
         (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
       ];
-
-      system.userActivationScripts = mkIf cfg.doom.enable {
-        installDoomEmacs = ''
-        if [ ! -d "$XDG_CONFIG_HOME/emacs" ]; then
-           git clone --depth=1 --single-branch "${cfg.doom.repoUrl}" "$XDG_CONFIG_HOME/emacs"
-           git clone "${cfg.doom.configRepoUrl}" "$XDG_CONFIG_HOME/doom"
-        fi
-      '';
-      };
     }
     # enable emacs daemon
     (mkIf cfg.daemon {
-      services.emacs.package = MyEmacs;
+      services.emacs.package = emacs;
       services.emacs.enable = true;
       # services.emacs.defaultEditor = true;
     })
