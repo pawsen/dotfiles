@@ -343,27 +343,36 @@
     SuspendState=mem
   '';
 
-  # Personal backups
   # ensure backup dir /.subvols/snapshots exists
   # mode: 1700, sticky bit, read/write/execute by owner
   systemd.tmpfiles.rules = [
-    "d /.subvols/snapshots 1700 root root"
+    "d /.subvols/snapshots 0700 root root -"
+    "d /etc/btrbk 0750 root btrbk -"
+    "z /etc/btrbk/id_ed25519 0600 btrbk btrbk -"
   ];
-  # see the following for how to setup ssh push
-  # https://github.com/NixOS/nixpkgs/blob/master/nixos/tests/btrbk.nix
-  # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/services/backup/btrbk.nix
+
+  # backup
   services.btrbk.instances."btrbk" = {
-    # systemd.time, https://manpages.ubuntu.com/manpages/xenial/man7/systemd.time.7.html#calendar%20events
-    # Persistent = true; (run timer on boot if calendar event is passed, eg. by
-    # computer being turned off) is set by btrbk.nix
     onCalendar = "daily";
     settings = {
+      ssh_user = "btrbk";
+      ssh_identity = "/etc/btrbk/id_ed25519";
+      stream_compress = "lz4";
+
+      # local retention
       snapshot_preserve_min = "2d";
-      snapshot_preserve = "48h 20d 6m";
-      volume = {
-        "/.subvols" = {
-          subvolume = "@home";
-          snapshot_dir = "snapshots";
+      snapshot_preserve = "7d 4w 6m";
+
+      # remote retention (on the server)
+      target_preserve = "4w 12m";
+
+      volume."/.subvols" = {
+        snapshot_dir = "/.subvols/snapshots";
+        target = "ssh://smallbrain.bleak-mine.ts.net/data/backup/btrbk/lion";
+
+        subvolume = {
+          # "@" = { };
+          "@home" = { };
         };
       };
     };
