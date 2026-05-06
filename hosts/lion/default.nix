@@ -83,6 +83,7 @@
     unstable.discord
     element-desktop
     flameshot # screen-shot tool
+    gwenview  # fast, easy GUI crop tool
     jpegoptim # compress and optimize jpeg's from cli
     zathura # pdf-reader with vim bindings
     poppler_utils # convert pdf to png using pdftoppm input.pdf output -png
@@ -147,7 +148,10 @@
   };
 
   # dialout group owns the device files - for uploading to arduino, etc
-  user.extraGroups = [ "dialout" "networkmanager" "adbusers" "plugdev" ];
+  user.extraGroups = [ "dialout" "networkmanager" "adbusers" "plugdev"
+  "libvirtd"
+  "kvm"
+  ];
 
   hardware = {
     # Enables rtl-sdr udev rules, ensures ‘plugdev’ group exists, and blacklists
@@ -182,9 +186,21 @@
     };
   };
 
-  #environment.shellAliases = {
-  #  # pass = "gopass";
-  #};
+  # Set up virtualisation
+  virtualisation = {
+    libvirtd = {
+      enable = true;
+
+      # Enable TPM emulation (for Windows 11)
+      qemu = {
+        swtpm.enable = true;
+        ovmf.packages = [ pkgs.OVMFFull.fd ];
+      };
+    };
+
+    # Enable USB redirection
+    spiceUSBRedirection.enable = true;
+  };
 
   # system packages
   environment.systemPackages = with pkgs; [
@@ -226,6 +242,12 @@
     lz4
     mbuffer
     btrbk
+
+    # Virtualisation with gnome boxes
+    # gnome-boxes # VM management
+    dnsmasq # VM networking
+    phodav # (optional) Share files with guest VMs
+
   ];
 
   # DoH
